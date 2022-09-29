@@ -23,12 +23,17 @@ export const OPTIONAL_LIST_ERROR_MESSAGE =
     'Invalid modifiers: You cannot combine isRequired: false and isList: true - optional lists are not supported.';
 
 /** Creates a schema AST object */
-export function createSchema(
-    models: Model[],
-    enums: Enum[],
-    dataSource?: DataSource,
-    generators: Generator[] = [],
-): Schema {
+export function createSchema({
+    models,
+    enums,
+    dataSource,
+    generators = [],
+}: {
+    models: Model[];
+    enums: Enum[];
+    dataSource?: DataSource | undefined;
+    generators?: Generator[] | undefined;
+}): Schema {
     return {
         dataSource,
         generators,
@@ -38,7 +43,15 @@ export function createSchema(
 }
 
 /** Creates an enum AST object */
-export function createEnum(name: string, values: string[], documentation?: string): Enum {
+export function createEnum({
+    name,
+    values,
+    documentation,
+}: {
+    name: string;
+    values: string[];
+    documentation?: string | undefined;
+}): Enum {
     validateName(name);
     return {
         name,
@@ -48,11 +61,15 @@ export function createEnum(name: string, values: string[], documentation?: strin
 }
 
 /** Creates a model AST object */
-export function createModel(
-    name: string,
-    fields: Array<ScalarField | ObjectField>,
-    documentation?: string,
-): Model {
+export function createModel({
+    name,
+    fields,
+    documentation,
+}: {
+    name: string;
+    fields: Array<ScalarField | ObjectField>;
+    documentation?: string | undefined;
+}): Model {
     validateName(name);
     return {
         name,
@@ -62,20 +79,36 @@ export function createModel(
 }
 
 /** Creates a scalar field AST object Validates given name argument */
-export function createScalarField(
-    name: string,
-    type: ScalarType,
-    isList: boolean = false,
-    isRequired: boolean = false,
-    isUnique: boolean = false,
-    isId: boolean = false,
-    isUpdatedAt: boolean = false,
-    defaultValue: ScalarFieldDefault = null,
-    documentation?: string,
-): ScalarField {
+export function createScalarField({
+    name,
+    type,
+    isList = false,
+    isRequired = false,
+    isUnique = false,
+    isId = false,
+    isUpdatedAt = false,
+    defaultValue = null,
+    documentation,
+}: {
+    name: string;
+    type: ScalarType;
+    isList?: boolean | undefined;
+    isRequired?: boolean | undefined;
+    isUnique?: boolean | undefined;
+    isId?: boolean | undefined;
+    isUpdatedAt?: boolean | undefined;
+    defaultValue?: ScalarFieldDefault | undefined;
+    documentation?: string | undefined;
+}): ScalarField {
     validateName(name);
-    validateScalarDefault(type, defaultValue);
-    validateModifiers(isRequired, isList);
+    validateScalarDefault({
+        type,
+        value: defaultValue,
+    });
+    validateModifiers({
+        isRequired,
+        isList,
+    });
     return {
         name,
         isList,
@@ -90,7 +123,7 @@ export function createScalarField(
     };
 }
 
-function validateScalarDefault(type: ScalarType, value: ScalarFieldDefault) {
+function validateScalarDefault({type, value}: {type: ScalarType; value: ScalarFieldDefault}) {
     if (value === null) {
         return;
     }
@@ -156,19 +189,32 @@ function validateScalarDefault(type: ScalarType, value: ScalarFieldDefault) {
 }
 
 /** Creates an object field AST object Validates given name argument */
-export function createObjectField(
-    name: string,
-    type: string,
-    isList: boolean = false,
-    isRequired: boolean = false,
-    relationName: string | null = null,
-    relationFields: string[] = [],
-    relationReferences: string[] = [],
-    relationOnDelete: 'NONE' = 'NONE',
-    documentation?: string,
-): ObjectField {
+export function createObjectField({
+    name,
+    type,
+    isList = false,
+    isRequired = false,
+    relationName = null,
+    relationFields = [],
+    relationReferences = [],
+    relationOnDelete = 'NONE',
+    documentation,
+}: {
+    name: string;
+    type: string;
+    isList?: boolean | undefined;
+    isRequired?: boolean | undefined;
+    relationName?: string | null | undefined;
+    relationFields?: string[] | undefined;
+    relationReferences?: string[] | undefined;
+    relationOnDelete?: 'NONE' | undefined;
+    documentation?: string | undefined;
+}): ObjectField {
     validateName(name);
-    validateModifiers(isRequired, isList);
+    validateModifiers({
+        isRequired,
+        isList,
+    });
     return {
         name,
         isList,
@@ -191,18 +237,22 @@ function validateName(name: string): void {
     }
 }
 
-function validateModifiers(isRequired: boolean, isList: boolean): void {
+function validateModifiers({isRequired, isList}: {isRequired: boolean; isList: boolean}): void {
     if (!isRequired && isList) {
         throw new Error(OPTIONAL_LIST_ERROR_MESSAGE);
     }
 }
 
 /** Creates a data source AST object */
-export function createDataSource(
-    name: string,
-    provider: DataSourceProvider,
-    url: string | DataSourceURLEnv,
-): DataSource {
+export function createDataSource({
+    name,
+    provider,
+    url,
+}: {
+    name: string;
+    provider: DataSourceProvider;
+    url: string | DataSourceURLEnv;
+}): DataSource {
     return {
         name,
         provider,
@@ -211,12 +261,17 @@ export function createDataSource(
 }
 
 /** Creates a generator AST object */
-export function createGenerator(
-    name: string,
-    provider: string,
-    output: string | null = null,
-    binaryTargets: string[] = [],
-): Generator {
+export function createGenerator({
+    name,
+    provider,
+    output = null,
+    binaryTargets = [],
+}: {
+    name: string;
+    provider: string;
+    output?: string | null | undefined;
+    binaryTargets?: string[] | undefined;
+}): Generator {
     return {
         name,
         provider,

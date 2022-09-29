@@ -89,7 +89,13 @@ export function printDocumentation(documentation: string): string {
  * @param code Code of an AST node
  * @returns If defined, code with documentation, otherwise the code as is
  */
-function withDocumentation(documentation: string | undefined, code: string): string {
+function withDocumentation({
+    documentation,
+    code,
+}: {
+    documentation: string | undefined;
+    code: string;
+}): string {
     if (documentation) {
         return [
             printDocumentation(documentation),
@@ -107,7 +113,10 @@ function withDocumentation(documentation: string | undefined, code: string): str
  */
 export function printEnum(enum_: Enum): string {
     const valuesText = enum_.values.join('\n');
-    return withDocumentation(enum_.documentation, `enum ${enum_.name} {\n${valuesText}\n}`);
+    return withDocumentation({
+        documentation: enum_.documentation,
+        code: `enum ${enum_.name} {\n${valuesText}\n}`,
+    });
 }
 
 /**
@@ -118,7 +127,10 @@ export function printEnum(enum_: Enum): string {
  */
 export function printModel(model: Model): string {
     const fieldTexts = model.fields.map(printField).join('\n');
-    return withDocumentation(model.documentation, `model ${model.name} {\n${fieldTexts}\n}`);
+    return withDocumentation({
+        documentation: model.documentation,
+        code: `model ${model.name} {\n${fieldTexts}\n}`,
+    });
 }
 
 /**
@@ -128,10 +140,10 @@ export function printModel(model: Model): string {
  * @returns Code of the field
  */
 export function printField(field: ObjectField | ScalarField) {
-    return withDocumentation(
-        field.documentation,
-        field.kind === FieldKind.Scalar ? printScalarField(field) : printObjectField(field),
-    );
+    return withDocumentation({
+        documentation: field.documentation,
+        code: field.kind === FieldKind.Scalar ? printScalarField(field) : printObjectField(field),
+    });
 }
 
 function printScalarField(field: ScalarField): string {

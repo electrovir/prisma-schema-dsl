@@ -12,7 +12,12 @@ describe('createScalarField', () => {
         const isList = true;
         const isRequired = false;
         expect(() =>
-            createScalarField(EXAMPLE_NAME, EXAMPLE_SCALAR_TYPE, isList, isRequired),
+            createScalarField({
+                name: EXAMPLE_NAME,
+                type: EXAMPLE_SCALAR_TYPE,
+                isList,
+                isRequired,
+            }),
         ).to.throw(OPTIONAL_LIST_ERROR_MESSAGE);
     });
 });
@@ -21,8 +26,13 @@ describe('createObjectField', () => {
     it('fails for invalid combination of optional list', () => {
         const isList = true;
         const isRequired = false;
-        expect(() => createObjectField(EXAMPLE_NAME, EXAMPLE_TYPE, isList, isRequired)).to.throw(
-            OPTIONAL_LIST_ERROR_MESSAGE,
-        );
+        expect(() =>
+            createObjectField({
+                name: EXAMPLE_NAME,
+                type: EXAMPLE_TYPE,
+                isList,
+                isRequired,
+            }),
+        ).to.throw(OPTIONAL_LIST_ERROR_MESSAGE);
     });
 });
