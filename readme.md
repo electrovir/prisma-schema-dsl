@@ -1,4 +1,4 @@
-![Node.js CI](https://github.com/amplication/prisma-schema-dsl/workflows/Node.js%20CI/badge.svg)
+Updated fork of [`prisma-schema-dsl`](https://github.com/amplication/prisma-schema-dsl)
 
 <p align="center">
     <img height="120" src="./assets/hero.png" alt="Prisma Schema DSL" />
@@ -9,7 +9,7 @@ JavaScript interface for [Prisma Schema DSL](https://www.prisma.io/docs/referenc
 ## Installation
 
 ```
-npm install prisma-schema-dsl
+npm install @electrovir/prisma-schema-dsl
 ```
 
 ## API
@@ -29,23 +29,23 @@ Creates a schema AST object
 
 #### `createEnum(name: string, values: string[], documentation?: string): Enum`
 
-- Creates an enum AST object
-- Validates given name argument
+-   Creates an enum AST object
+-   Validates given name argument
 
 #### `createModel(name: string, fields: Array<ScalarField | ObjectField>): Model`
 
-- Creates a model AST object
-- Validates given name argument
+-   Creates a model AST object
+-   Validates given name argument
 
 #### `createScalarField(name: string, type: ScalarType, isList: boolean = false, isRequired: boolean = false, isUnique: boolean = false, isId: boolean = false, isUpdatedAt: boolean = false, default: | null | boolean | CallExpression | number | string = null): ScalarField`
 
-- Creates a scalar field AST object
-- Validates given name argument
+-   Creates a scalar field AST object
+-   Validates given name argument
 
 #### `createObjectField(name: string, type: string, isList: boolean = false, isRequired: boolean = false, relationName: string | null = null, relationToFields: string[] = [], relationToReferences: string[] = [], relationOnDelete: "NONE" = "NONE"): ObjectField`
 
-- Creates an object field AST object
-- Validates given name argument
+-   Creates an object field AST object
+-   Validates given name argument
 
 #### `createDataSource(name: string, provider: DataSourceProvider, url: string | DataSourceURLEnv): DataSource`
 
@@ -53,11 +53,12 @@ Creates a data source AST object
 
 ## Development
 
-- Clone the repository `git clone git@github.com:amplication/prisma-schema-dsl.git`
-- Make sure to use npm@7 `npm i -g npm@7`
-- Install the dependencies `npm install`
-- Run tests `npm test`
+-   Clone the repository `git clone git@github.com:electrovir/prisma-schema-dsl.git`
+-   Make sure to use npm@7 `npm i -g npm@7`
+-   Install the dependencies `npm install`
+-   Run tests `npm test`
 
 ---
 
 Created with <3 by amplication
+forked and modified by electrovir

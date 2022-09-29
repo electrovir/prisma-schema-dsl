@@ -1,0 +1,9 @@
+{
+    "import": ".virmator/.cspell-base.json",
+    "words": [
+        "toolbelt",
+        "amplication",
+        "autoincrement",
+        "datasource"
+    ]
+}
